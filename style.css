@@ -27,9 +27,14 @@ main#main {
 }
 
 /* Base general adaptable */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+}
+
 #micro-app {
     width: 100% !important;
-    /* width: 100vw causa scroll horizontal en Windows */
     min-height: 100vh !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -39,10 +44,9 @@ main#main {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    /* Centrado absoluto horizontal */
     overflow-x: hidden !important;
-    /* Previene roturas responsivas laterales */
 }
+
 
 /* Contenedor principal adaptable para móvil, tablet y desktop */
 .app-content {
