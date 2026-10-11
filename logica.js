@@ -609,6 +609,11 @@ function abrirModalEditar(arrayIndex) {
     // Mostrar modal
     document.getElementById('editModal').style.display = 'flex';
     document.body.classList.add('no-scroll');
+    _modalOpen = true;
+    // Bloquear scroll del parent (WordPress) mientras el modal está abierto
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+    }
 }
 
 function toggleCheckboxes() {
@@ -675,6 +680,12 @@ function toggleCheckboxes() {
 function cerrarModal() {
     document.getElementById('editModal').style.display = 'none';
     document.body.classList.remove('no-scroll');
+    _modalOpen = false;
+    // Desbloquear scroll del parent y re-sincronizar la altura
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    }
+    setTimeout(sendHeightToParent, 50);
 }
 
 function guardarEdicion() {
@@ -971,10 +982,19 @@ function abrirModalValidacion(rowIndex, tipo) {
     }
 
     document.getElementById('scanValidationModal').style.display = 'flex';
+    _modalOpen = true;
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+    }
 }
 
 function cerrarModalValidacion() {
     document.getElementById('scanValidationModal').style.display = 'none';
+    _modalOpen = false;
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    }
+    setTimeout(sendHeightToParent, 50);
     // Permitir escanear de nuevo
     setTimeout(() => {
         _scanPaused = false;
@@ -1119,6 +1139,10 @@ function abrirModalManual(tipo) {
     const modal = document.getElementById('modalManualCheckin');
     if (modal) {
         modal.style.display = 'flex';
+        _modalOpen = true;
+        if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+        }
         document.body.classList.add('no-scroll');
     }
 
@@ -1142,6 +1166,11 @@ function abrirModalManual(tipo) {
 function cerrarModalManual() {
     const modal = document.getElementById('modalManualCheckin');
     if (modal) modal.style.display = 'none';
+    _modalOpen = false;
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    }
+    setTimeout(sendHeightToParent, 50);
     document.body.classList.remove('no-scroll');
 }
 
@@ -1458,11 +1487,17 @@ window.renderListaManual = renderListaManual;
 window.ejecutarCheckinManual = ejecutarCheckinManual;
 
 // --- AJUSTE AUTOMÁTICO DE ALTURA PARA IFRAME (WORDPRESS) ---
+// _modalOpen: flag para pausar el ResizeObserver y evitar el bucle scroll infinito
+var _modalOpen = false;
+
 function sendHeightToParent() {
+    // No enviar altura si hay un modal abierto (evita bucle scroll)
+    if (_modalOpen) return;
     if (window.parent && window.parent !== window) {
         const microApp = document.getElementById('micro-app');
         const height = Math.ceil(
-            microApp ? microApp.getBoundingClientRect().height : (document.body.scrollHeight || document.documentElement.scrollHeight || 0)
+            microApp ? microApp.getBoundingClientRect().height
+                     : (document.body.scrollHeight || document.documentElement.scrollHeight || 0)
         );
         if (height > 0) {
             window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
@@ -1474,11 +1509,14 @@ window.addEventListener('load', () => {
     sendHeightToParent();
     setTimeout(sendHeightToParent, 300);
 });
-window.addEventListener('resize', sendHeightToParent);
+window.addEventListener('resize', () => {
+    if (!_modalOpen) sendHeightToParent();
+});
 
 if (window.ResizeObserver) {
     const appResizeObserver = new ResizeObserver(() => {
-        sendHeightToParent();
+        // Ignorar cambios mientras un modal está abierto
+        if (!_modalOpen) sendHeightToParent();
     });
     const targetEl = document.getElementById('micro-app') || document.body;
     if (targetEl) {
