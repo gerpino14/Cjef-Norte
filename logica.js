@@ -607,11 +607,17 @@ function abrirModalEditar(arrayIndex) {
     toggleCheckboxes();
 
     // Mostrar modal
-    document.getElementById('editModal').style.display = 'flex';
+    const editModal = document.getElementById('editModal');
+    editModal.style.display = 'flex';
     document.body.classList.add('no-scroll');
     _modalOpen = true;
-    // Bloquear scroll del parent (WordPress) mientras el modal está abierto
+
+    // Si estamos dentro de un iframe, centrar el modal en la posición visual actual
     if (window.parent && window.parent !== window) {
+        document.body.classList.add('in-iframe');
+        // Solicitar a WordPress o ajustar el top al área visible
+        const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
+        editModal.style.top = Math.max(0, currentScroll) + 'px';
         window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
     }
 }
@@ -1486,12 +1492,24 @@ window.filtrarListaManual = filtrarListaManual;
 window.renderListaManual = renderListaManual;
 window.ejecutarCheckinManual = ejecutarCheckinManual;
 
-// --- AJUSTE AUTOMÁTICO DE ALTURA PARA IFRAME (WORDPRESS) ---
-// _modalOpen: flag para pausar el ResizeObserver y evitar el bucle scroll infinito
+// --- AJUSTE AUTOMÁTICO DE ALTURA Y POSICIÓN PARA IFRAME (WORDPRESS) ---
 var _modalOpen = false;
 
+if (window.parent && window.parent !== window) {
+    document.body.classList.add('in-iframe');
+}
+
+window.addEventListener('message', (event) => {
+    // Si WordPress nos dice dónde está el scroll de la ventana
+    if (event.data && event.data.type === 'parent-scroll') {
+        const modal = document.querySelector('.modal-overlay[style*="display: flex"]');
+        if (modal) {
+            modal.style.top = Math.max(20, (event.data.scrollY || 0) + 40) + 'px';
+        }
+    }
+});
+
 function sendHeightToParent() {
-    // No enviar altura si hay un modal abierto (evita bucle scroll)
     if (_modalOpen) return;
     if (window.parent && window.parent !== window) {
         const microApp = document.getElementById('micro-app');
@@ -1515,7 +1533,6 @@ window.addEventListener('resize', () => {
 
 if (window.ResizeObserver) {
     const appResizeObserver = new ResizeObserver(() => {
-        // Ignorar cambios mientras un modal está abierto
         if (!_modalOpen) sendHeightToParent();
     });
     const targetEl = document.getElementById('micro-app') || document.body;

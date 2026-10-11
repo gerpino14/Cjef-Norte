@@ -888,22 +888,29 @@ html, body {
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
-    width: 100% !important;   /* usar 100% en vez de 100vw para evitar scroll horizontal en iframe */
-    height: 100% !important;  /* usar 100% en vez de 100vh */
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
     background: rgba(17, 24, 39, 0.6) !important;
-    /* Backdrop oscuro */
     backdrop-filter: blur(6px) !important;
-    /* Glassmorphism effect mejorado */
     display: none;
-    /* Oculto por defecto, JS lo pasa a flex */
     align-items: center !important;
     justify-content: center !important;
     z-index: 999999 !important;
-    /* Por encima del panel de WP */
     padding: 20px !important;
     box-sizing: border-box !important;
-    /* Evitar que el backdrop extienda el scroll del iframe */
-    overflow: hidden !important;
+    overflow-y: auto !important; /* Permite scrollear el modal si la pantalla es reducida */
+}
+
+/* Cuando se embebe en iframe largo de WordPress, el modal se ubica en absolute según el scroll */
+body.in-iframe .modal-overlay {
+    position: absolute !important;
+    height: auto !important;
+    min-height: 100% !important;
+    align-items: flex-start !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
 }
 
 .modal-content {
