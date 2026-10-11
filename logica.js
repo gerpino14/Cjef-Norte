@@ -1513,20 +1513,45 @@ function sendHeightToParent() {
     if (_modalOpen) return;
     if (window.parent && window.parent !== window) {
         const microApp = document.getElementById('micro-app');
-        const height = Math.ceil(
-            microApp ? microApp.getBoundingClientRect().height
-                     : (document.body.scrollHeight || document.documentElement.scrollHeight || 0)
-        );
-        if (height > 0) {
-            window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+        const appContent = document.querySelector('.app-content');
+        
+        let calculatedHeight = 0;
+        if (appContent) {
+            calculatedHeight = Math.max(
+                appContent.offsetHeight + 60,
+                microApp ? microApp.scrollHeight : 0,
+                document.body.scrollHeight || 0,
+                document.documentElement.scrollHeight || 0
+            );
+        } else {
+            calculatedHeight = Math.max(
+                document.body.scrollHeight || 0,
+                document.documentElement.scrollHeight || 0
+            );
         }
+
+        const finalHeight = Math.max(650, Math.ceil(calculatedHeight));
+        window.parent.postMessage({ type: 'resize-iframe', height: finalHeight }, '*');
     }
 }
 
+// Medir al cargar el DOM, al cargar las imágenes y en varios intervalos para garantizar que el banner ya cargó
 window.addEventListener('load', () => {
     sendHeightToParent();
-    setTimeout(sendHeightToParent, 300);
+    setTimeout(sendHeightToParent, 200);
+    setTimeout(sendHeightToParent, 600);
+    setTimeout(sendHeightToParent, 1200);
 });
+
+// Si las imágenes del banner terminan de renderizar, recalcular de inmediato
+document.querySelectorAll('img').forEach(img => {
+    if (img.complete) {
+        sendHeightToParent();
+    } else {
+        img.addEventListener('load', sendHeightToParent);
+    }
+});
+
 window.addEventListener('resize', () => {
     if (!_modalOpen) sendHeightToParent();
 });
@@ -1535,7 +1560,7 @@ if (window.ResizeObserver) {
     const appResizeObserver = new ResizeObserver(() => {
         if (!_modalOpen) sendHeightToParent();
     });
-    const targetEl = document.getElementById('micro-app') || document.body;
+    const targetEl = document.querySelector('.app-content') || document.getElementById('micro-app') || document.body;
     if (targetEl) {
         appResizeObserver.observe(targetEl);
     }

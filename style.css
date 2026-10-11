@@ -35,7 +35,7 @@ html, body {
 
 #micro-app {
     width: 100% !important;
-    min-height: auto !important;
+    min-height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
@@ -53,9 +53,10 @@ html, body {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 auto !important;
-    padding: 20px 16px !important;
+    padding: 20px 16px 50px 16px !important;
     transition: max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
+
 
 /* Adaptación para pantallas medianas (Tablets) */
 @media (min-width: 600px) {
