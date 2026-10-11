@@ -1456,3 +1456,31 @@ window.setManualFilterPago = setManualFilterPago;
 window.filtrarListaManual = filtrarListaManual;
 window.renderListaManual = renderListaManual;
 window.ejecutarCheckinManual = ejecutarCheckinManual;
+
+// --- AJUSTE AUTOMÁTICO DE ALTURA PARA IFRAME (WORDPRESS) ---
+function sendHeightToParent() {
+    if (window.parent && window.parent !== window) {
+        const height = Math.max(
+            document.body.scrollHeight || 0,
+            document.documentElement.scrollHeight || 0,
+            document.getElementById('micro-app') ? document.getElementById('micro-app').scrollHeight : 0
+        );
+        window.parent.postMessage({ type: 'resize-iframe', height: height }, '*');
+    }
+}
+
+window.addEventListener('load', sendHeightToParent);
+window.addEventListener('resize', sendHeightToParent);
+
+if (window.ResizeObserver) {
+    const appResizeObserver = new ResizeObserver(() => {
+        sendHeightToParent();
+    });
+    if (document.body) {
+        appResizeObserver.observe(document.body);
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            appResizeObserver.observe(document.body);
+        });
+    }
+}
