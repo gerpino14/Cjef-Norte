@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name:       Jornada Espiritual Metodista
- * Plugin URI:        https://github.com/gerpino14/Metodista-Jornada
- * Description:       Aplicación web para la gestión de credenciales y administración de la Jornada Espiritual. Insértala usando el shortcode [jornada_metodista].
+ * Plugin Name:       Jornada CJEF Norte
+ * Plugin URI:        https://github.com/gerpino14/Cjef-Norte
+ * Description:       Aplicación web para la gestión de credenciales, asistencia, almuerzos y administración de la Jornada CJEF. Insértala usando el shortcode [jornada_cjef].
  * Version:           1.0.0
  * Author:            Gerson
  * Author URI:        https://github.com/gerpino14
- * GitHub Plugin URI: gerpino14/Metodista-Jornada
+ * GitHub Plugin URI: gerpino14/Cjef-Norte
  * Primary Branch:    main
  */
 
@@ -17,13 +17,13 @@ if (!defined('ABSPATH')) {
 /**
  * Encolar scripts y estilos solo cuando se use el shortcode
  */
-function jornada_metodista_enqueue_assets() {
+function jornada_cjef_enqueue_assets() {
     $plugin_url = plugin_dir_url(__FILE__);
     $version = '1.0.0';
 
     // Google Fonts
     wp_enqueue_style(
-        'jornada-google-fonts',
+        'jornada-cjef-google-fonts',
         'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap',
         array(),
         null
@@ -31,7 +31,7 @@ function jornada_metodista_enqueue_assets() {
 
     // FontAwesome 6
     wp_enqueue_style(
-        'jornada-fontawesome',
+        'jornada-cjef-fontawesome',
         'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
         array(),
         '6.0.0'
@@ -39,7 +39,7 @@ function jornada_metodista_enqueue_assets() {
 
     // Estilos propios de la aplicación
     wp_enqueue_style(
-        'jornada-app-style',
+        'jornada-cjef-app-style',
         $plugin_url . 'style.css',
         array(),
         $version
@@ -47,7 +47,7 @@ function jornada_metodista_enqueue_assets() {
 
     // Librerías JS externas requeridas
     wp_enqueue_script(
-        'jornada-phosphor-icons',
+        'jornada-cjef-phosphor-icons',
         'https://unpkg.com/@phosphor-icons/web',
         array(),
         null,
@@ -55,7 +55,7 @@ function jornada_metodista_enqueue_assets() {
     );
 
     wp_enqueue_script(
-        'jornada-qrcode',
+        'jornada-cjef-qrcode',
         'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js',
         array(),
         '1.0.0',
@@ -63,7 +63,7 @@ function jornada_metodista_enqueue_assets() {
     );
 
     wp_enqueue_script(
-        'jornada-html5-qrcode',
+        'jornada-cjef-html5-qrcode',
         'https://unpkg.com/html5-qrcode',
         array(),
         null,
@@ -72,20 +72,20 @@ function jornada_metodista_enqueue_assets() {
 
     // Script de lógica cliente
     wp_enqueue_script(
-        'jornada-app-logica',
+        'jornada-cjef-app-logica',
         $plugin_url . 'logica.js',
-        array('jornada-qrcode', 'jornada-html5-qrcode'),
+        array('jornada-cjef-qrcode', 'jornada-cjef-html5-qrcode'),
         $version,
         true
     );
 }
 
 /**
- * Shortcode [jornada_metodista]
+ * Shortcode [jornada_cjef] (y alias [jornada_cjef_norte])
  */
-function jornada_metodista_shortcode() {
+function jornada_cjef_shortcode() {
     // Cargar estilos y scripts solo en la página que tiene el shortcode
-    jornada_metodista_enqueue_assets();
+    jornada_cjef_enqueue_assets();
 
     $html_file = plugin_dir_path(__FILE__) . 'app-template.php';
     if (!file_exists($html_file)) {
@@ -110,4 +110,5 @@ function jornada_metodista_shortcode() {
     }
     return ob_get_clean();
 }
-add_shortcode('jornada_metodista', 'jornada_metodista_shortcode');
+add_shortcode('jornada_cjef', 'jornada_cjef_shortcode');
+add_shortcode('jornada_cjef_norte', 'jornada_cjef_shortcode');

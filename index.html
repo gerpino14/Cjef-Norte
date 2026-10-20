@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jornada Espiritual 2026 - El Metodista</title>
+    <title>Control de Asistencia y Almuerzo - Sábado 24</title>
     <!-- Fuentes de Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Iconos y librerías externas -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -16,808 +19,785 @@
     <!-- Estilos locales -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div id="micro-app">
+    <div id="micro-app">
 
-    <!-- CONTENEDOR DE PANTALLAS -->
-    <main class="app-content">
+        <!-- CONTENEDOR DE PANTALLAS -->
+        <main class="app-content">
 
-        <!-- PANTALLA INICIO -->
-        <div id="view-home" class="view active-view">
-            <div class="hero-section" style="text-align: center;">
-                <img src="https://jornada-espiritual.elmetodista.com/wp-content/uploads/2026/10/BannerJornadaEspiritual2026_.png"
-                    alt="Banner Jornada Espiritual 2026" class="hero-banner">
-            </div>
-
-            <div class="card-container" style="text-align: center;">
-                <p class="welcome-text">Bienvenido/a. Selecciona una opción para comenzar:</p>
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="switchView('view-user-login')">
-                        <i class="ph ph-identification-badge" style="font-size: 20px;"></i> Obtener mi Credencial
-                    </button>
-                    <button class="btn btn-outline" onclick="switchView('view-admin-login')">
-                        <i class="ph ph-user-circle-gear" style="font-size: 20px;"></i> Panel Administrador
-                    </button>
+            <!-- PANTALLA INICIO -->
+            <div id="view-home" class="view active-view">
+                <div class="hero-section" style="text-align: center;">
+                    <img src="https://jornada-espiritual.elmetodista.com/wp-content/uploads/2026/10/BannerJornadaEspiritual2026_.png"
+                        alt="Banner Jornada Espiritual 2026" class="hero-banner">
                 </div>
 
-                <div
-                    style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 14px; color: var(--text-muted);">
-                    ¿Aún no estás inscrito? <br>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdImyyVLyr7x5LWAFLdS_X9V_2d7ziV051hasYQTx3XV2yVGQ/viewform"
-                        target="_blank" class="register-link">
-                        <i class="ph ph-clipboard-text" style="font-size: 20px;"></i> Ir al Formulario de Inscripción
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- LOGIN USUARIO (POR NOMBRE) -->
-        <div id="view-user-login" class="view">
-            <div class="card-container form-card">
-                <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
-                        style="font-size: 20px;"></i>
-                    Volver</button>
-                <div class="form-header">
-                    <div class="icon-circle"><i class="ph ph-user-circle-check" style="font-size: 40px;"></i></div>
-                    <h3>Tu Credencial de Acceso</h3>
-                    <p>Ingresa tu <b>Nombre y Apellido</b> tal como te registraste.</p>
-                </div>
-                <input type="text" id="userName" class="input-field" placeholder="Ej: Pedro Pérez">
-                <div style="text-align: center;">
-                    <button class="btn btn-primary" onclick="generarCredencialPorNombre()">
-                        <span>Generar mi Credencial</span> <i class="ph ph-arrow-right" style="font-size: 20px;"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- CREDENCIAL GENERADA -->
-        <div id="view-credential" class="view">
-            <div class="card-container credential-wrapper">
-                <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
-                        style="font-size: 20px;"></i>
-                    Inicio</button>
-
-                <div class="credencial-card">
-                    <div class="cred-badge-top">CREDENCIAL DE ACCESO OFICIAL</div>
-                    <h2 id="cred-name">Cargando...</h2>
-                    <p class="cred-status"><i class="ph-fill ph-seal-check"
-                            style="color: #10b981; font-size: 14px;"></i> Asistente Verificado </p>
-
-                    <!-- Nuevos campos para mostrar los datos extra -->
-                    <div class="cred-extras">
-                        <span class="cred-badge-extra iglesia">
-                            <i class="ph ph-church" style="font-size: 20px;"></i> Iglesia: <b id="cred-iglesia">--</b>
-                        </span>
-                        <span class="cred-badge-extra almuerzo" id="cred-badge-almuerzo">
-                            <i class="ph ph-fork-knife" style="font-size: 20px;"></i> Almuerzo: <b
-                                id="cred-almuerzo">--</b>
-                        </span>
-                        <span class="cred-badge-extra estado-almuerzo" id="cred-badge-estado-almuerzo" style="display: none;">
-                            <i class="ph ph-receipt" id="cred-estado-almuerzo-icon" style="font-size: 20px;"></i> Estado Almuerzo: <b
-                                id="cred-estado-almuerzo">--</b>
-                        </span>
-                        <span class="cred-badge-extra alojamiento">
-                            <i class="ph ph-bed" style="font-size: 20px;"></i> Alojamiento: <b
-                                id="cred-alojamiento">--</b>
-                        </span>
-                    </div>
-
-                    <div id="qr-container"></div>
-                    <div class="qr-instructions">
-                        <i class="ph-bold ph-qr-code" style="font-size: 13px;"></i> Presenta este código QR al llegar a
-                        la Jornada Espiritual
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="btn btn-secondary" onclick="switchView('view-schedule')"><i
-                            class="ph ph-calendar-dots" style="font-size: 20px;"></i> Programa</button>
-                    <button class="btn btn-secondary" onclick="switchView('view-location')"><i class="ph ph-map-pin"
-                            style="font-size: 20px;"></i> Ubicación</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROGRAMA (CRONOGRAMA TIPO CONFERENCIA) -->
-        <div id="view-schedule" class="view">
-            <div class="card-container">
-                <button class="btn-back" onclick="switchView('view-credential')"><i class="ph ph-arrow-left"
-                        style="font-size: 20px;"></i> Ir a mi Credencial</button>
-                <div class="form-header">
-                    <div class="icon-circle"><i class="ph ph-calendar-dots" style="font-size: 40px;"></i></div>
-                    <h3>Programa de Actividades</h3>
-                    <p>Jornada Espiritual Nacional 2026</p>
-                </div>
-
-                <div class="schedule-dual-grid">
-
-                    <!-- COLUMNA SÁBADO -->
-                    <div class="schedule-col">
-                        <div class="day-hero">
-                            <span class="d-name">Sábado</span>
-                            <span class="d-num">10</span> <!-- Cambia este número por la fecha real -->
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">09:30 - 10:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Inscripción de delegados y participantes</div>
-                                <div class="s-desc">Hnos. Beatriz Ulloa Carreño y Daniel Verdejo Muñoz, 1ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">10:00 - 10:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Devocional jornada mañana</div>
-                                <div class="s-desc">Hno. Julio Gallego Gajardo, 2ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">10:15 - 11:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 1: “El tiempo de la creación. ¿Días o millones de años?” Parte
-                                    1</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">11:15 - 11:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Tiempo de café</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">11:30 - 12:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 1: “El tiempo de la creación. ¿Días o millones de años?” Parte
-                                    2</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">12:30 - 12:45</div>
-                            <div class="s-content">
-                                <div class="s-title">Informaciones generales</div>
-                                <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">12:45 - 13:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Fotografías de la 13ª Jornada</div>
-                                <div class="s-desc">PL Hno. J. Samuel Pino Aguilera, 4ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">13:00 - 15:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Almuerzo</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">15:00 - 15:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Devocional jornada tarde</div>
-                                <div class="s-desc">Dcno. José Espinoza Ñanculef, IMI Cajón</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">15:15 - 16:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 2: “Los hijos de Dios, las hijas de los hombres y la
-                                    destrucción del mundo antiguo”</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">16:15 - 16:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Periodo de alabanzas</div>
-                                <div class="s-desc">Hno. Rodolfo Reyes Rivera, 5ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">16:30 - 17:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Taller práctico</div>
-                                <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">17:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Clausura Jornada del viernes</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- COLUMNA DOMINGO -->
-                    <div class="schedule-col">
-                        <div class="day-hero">
-                            <span class="d-name">Domingo</span>
-                            <span class="d-num">11</span> <!-- Cambia este número por la fecha real -->
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">09:30 - 10:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Inscripción de delegados y participantes</div>
-                                <div class="s-desc">Hnos. Beatriz Ulloa Carreño y Daniel Verdejo Muñoz, 1ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">10:00 - 10:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Devocional jornada mañana</div>
-                                <div class="s-desc">PL Hno. Andrés Paredes Ramírez, 3a IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">10:15 - 11:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 3: ¿La caída de Adán y Eva es literal o poética? ¿Es una
-                                    serpiente real lo que describe Génesis 3?</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">11:15 - 11:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Tiempo de café</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">11:30 - 12:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 4: ¿Es válido el Pacto de Dios con Noé en Génesis 22 o se
-                                    viene un colapso climático a la Tierra? Parte 1</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">12:30 - 12:45</div>
-                            <div class="s-content">
-                                <div class="s-title">Informaciones generales</div>
-                                <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">12:30 - 12:45</div>
-                            <div class="s-content">
-                                <div class="s-title">Periodo de alabanzas</div>
-                                <div class="s-desc">Hno. Rodolfo Reyes Rivera, 5ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">12:45 - 13:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Fotografías de la 13ª Jornada</div>
-                                <div class="s-desc">PL Hno. J. Samuel Pino Aguilera, 4ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">13:00 - 15:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Almuerzo</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">15:00 - 15:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Devocional jornada tarde</div>
-                                <div class="s-desc">PL Hno. Marcelo Gómez Román, 5ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">15:15 - 16:15</div>
-                            <div class="s-content">
-                                <div class="s-title">Tema 4: Es válido el Pacto de Dios con Noé en Génesis 22 o se viene
-                                    un colapso climático a la Tierra? Parte 2</div>
-                                <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">16:15 - 17:00</div>
-                            <div class="s-content">
-                                <div class="s-title">Taller práctico</div>
-                                <div class="s-desc">Pr. Daniel Horta Sepúlveda, 5ª IMI</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">17:00 - 17:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Refrigerio</div>
-                            </div>
-                        </div>
-
-                        <div class="s-item">
-                            <div class="s-time">17:30</div>
-                            <div class="s-content">
-                                <div class="s-title">Culto de clausura</div>
-                                <div class="s-desc">Preside: Pr. Daniel Jara Díaz, IMI PLC</div>
-                                <div class="s-desc">Predicación: Pr. David Horta Sepúlveda, 3ª IMI</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div> <!-- Fin grid -->
-            </div>
-        </div>
-
-
-        <!-- UBICACIÓN Y MAPA -->
-        <div id="view-location" class="view">
-            <div class="card-container">
-                <button class="btn-back" onclick="switchView('view-credential')"><i class="ph ph-arrow-left"
-                        style="font-size: 20px;"></i> Ir a mi Credencial</button>
-                <div class="form-header">
-                    <div class="icon-circle"><i class="ph ph-map-pin" style="font-size: 40px;"></i></div>
-                    <h3>Ubicación de la Jornada</h3>
-                    <p>Tercera Iglesia Metodista Independiente</p>
-                </div>
-
-                <!-- Mapa de Google Embebido Adaptable -->
-                <div class="map-wrapper">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.1673046343967!2d-70.71691892435982!3d-33.47099469856441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c49dca5de983%3A0xffc1dd64cd70778a!2sTercera%20Iglesia%20Metodista%20Independiente!5e0!3m2!1ses-419!2scl!4v1791066105524!5m2!1ses-419!2scl"
-                        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="strict-origin-when-cross-origin"></iframe>
-                </div>
-
-                <div class="location-info-grid">
-                    <div class="info-item">
-                        <div class="info-icon"><i class="ph ph-map-pin-simple" style="font-size: 20px;"></i></div>
-                        <div class="info-text">
-                            <strong>Dirección</strong>
-                            <span>Tercera Iglesia Metodista Independiente<br>Santiago, Las Estepas 763, Estación
-                                Central, Santiago, Región Metropolitana</span>
-                        </div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-icon"><i class="ph ph-bus" style="font-size: 20px;"></i></div>
-                        <div class="info-text">
-                            <strong>Cómo llegar</strong>
-                            <span>Recomendamos planificar tu viaje con anticipación revisando las opciones de locomoción
-                                colectiva en google maps.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-outline" style="margin-top: 20px;"
-                    onclick="window.open('https://maps.google.com/?q=Tercera+Iglesia+Metodista+Independiente+Santiago', '_blank')">
-                    <i class="ph ph-arrow-square-out" style="font-size: 20px;"></i> Abrir en la app de Google Maps
-                </button>
-            </div>
-        </div>
-
-        <!-- LOGIN ADMIN -->
-        <div id="view-admin-login" class="view">
-            <div class="card-container form-card">
-                <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
-                        style="font-size: 20px;"></i> Ir al Inicio</button>
-                <div class="form-header">
-                    <div class="icon-circle admin-icon"><i class="ph ph-lock" style="font-size: 40px;"></i></div>
-                    <h3>Acceso Administrador</h3>
-                    <p>Introduce la clave de administrador para acceder al panel de control</p>
-                </div>
-                <input type="password" id="adminPass" class="input-field" placeholder="••••••••">
-                <div style="text-align: center;">
-                    <button class="btn btn-primary" onclick="loginAdmin()">Ingresar al Panel</button>
-                </div>
-                <p id="admin-error" class="error-msg"><i class="ph-bold ph-warning-circle" style="font-size: 14px;"></i>
-                    Clave incorrecta, ingrese la clave correcta nuevamente</p>
-            </div>
-        </div>
-
-        <!-- DASHBOARD ADMIN -->
-        <div id="view-admin-dashboard" class="view">
-            <div class="dashboard-wrapper">
-                <div class="dashboard-topbar">
-                    <div>
-                        <h3>Panel de Control</h3>
-                        <p>Control de asistencia de la Jornada en tiempo real</p>
-                    </div>
-                    <div class="admin-actions">
-                        <button class="btn-icon" onclick="cargarDatosDashboard()" title="Actualizar datos">
-                            <i class="ph ph-arrows-clockwise" style="font-size: 20px;" id="sync-icon"></i>
+                <div class="card-container" style="text-align: center;">
+                    <p class="welcome-text">Bienvenido/a. Selecciona una opción para comenzar:</p>
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="switchView('view-user-login')">
+                            <i class="ph ph-identification-badge" style="font-size: 20px;"></i> Obtener mi Credencial
                         </button>
-                        <button class="btn-icon btn-logout" onclick="switchView('view-home')" title="Cerrar sesión"><i
-                                class="ph ph-sign-out" style="font-size: 20px;"></i> Cerrar Sesión</button>
+                        <button class="btn btn-outline" onclick="switchView('view-admin-login')">
+                            <i class="ph ph-user-circle-gear" style="font-size: 20px;"></i> Panel Administrador
+                        </button>
+                    </div>
+
+                    <div
+                        style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-color); font-size: 14px; color: var(--text-muted);">
+                        ¿Aún no estás inscrito? <br>
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScfdH-u-3zzuVpETIFhP3pU1rT5LxaIwoHlSCix8HvZ1nrWKg/viewform"
+                            target="_blank" class="register-link">
+                            <i class="ph ph-clipboard-text" style="font-size: 20px;"></i> Ir al Formulario de
+                            Inscripción
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- NUEVAS PESTAÑAS -->
-                <div class="admin-tabs">
-                    <button class="admin-tab active" onclick="switchAdminTab('tab-metricas', this)">
-                        <i class="ph ph-chart-pie" style="font-size: 20px;"></i> Dashboard
+            <!-- LOGIN USUARIO (POR NOMBRE) -->
+            <div id="view-user-login" class="view">
+                <div class="card-container form-card">
+                    <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
+                            style="font-size: 20px;"></i>
+                        Volver</button>
+                    <div class="form-header">
+                        <div class="icon-circle"><i class="ph ph-user-circle-check" style="font-size: 40px;"></i></div>
+                        <h3>Tu Credencial de Acceso</h3>
+                        <p>Ingresa tu <b>Nombre y Apellido</b> tal como te registraste.</p>
+                    </div>
+                    <input type="text" id="userName" class="input-field" placeholder="Ej: Pedro Pérez">
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="generarCredencialPorNombre()">
+                            <span>Generar mi Credencial</span> <i class="ph ph-arrow-right"
+                                style="font-size: 20px;"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CREDENCIAL GENERADA -->
+            <div id="view-credential" class="view">
+                <div class="card-container credential-wrapper">
+                    <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
+                            style="font-size: 20px;"></i>
+                        Inicio</button>
+
+                    <div class="credencial-card">
+                        <div class="cred-badge-top">CREDENCIAL DE ACCESO OFICIAL</div>
+                        <h2 id="cred-name">Cargando...</h2>
+                        <p class="cred-status"><i class="ph-fill ph-seal-check"
+                                style="color: #10b981; font-size: 14px;"></i> Asistente Verificado </p>
+
+                        <!-- Nuevos campos para mostrar los datos extra -->
+                        <div class="cred-extras">
+                            <span class="cred-badge-extra denominacion" id="cred-badge-denominacion">
+                                <i class="ph ph-buildings" style="font-size: 20px;"></i> Denominación: <b
+                                    id="cred-denominacion">--</b>
+                            </span>
+                            <span class="cred-badge-extra iglesia">
+                                <i class="ph ph-church" style="font-size: 20px;"></i> Iglesia: <b
+                                    id="cred-iglesia">--</b>
+                            </span>
+                            <span class="cred-badge-extra almuerzo" id="cred-badge-almuerzo">
+                                <i class="ph ph-fork-knife" style="font-size: 20px;"></i> Almuerzo: <b
+                                    id="cred-almuerzo">--</b>
+                            </span>
+                            <span class="cred-badge-extra estado-almuerzo" id="cred-badge-estado-almuerzo"
+                                style="display: none;">
+                                <i class="ph ph-receipt" id="cred-estado-almuerzo-icon" style="font-size: 20px;"></i>
+                                Estado Pago: <b id="cred-estado-almuerzo">--</b>
+                            </span>
+                        </div>
+
+                        <div id="qr-container"></div>
+                        <div class="qr-instructions">
+                            <i class="ph-bold ph-qr-code" style="font-size: 13px;"></i> Presenta este código QR al
+                            llegar el Sábado 24
+                        </div>
+                    </div>
+
+                    <div class="action-grid">
+                        <button class="btn btn-secondary" onclick="switchView('view-schedule')"><i
+                                class="ph ph-calendar-dots" style="font-size: 20px;"></i> Programa</button>
+                        <button class="btn btn-secondary" onclick="switchView('view-location')"><i class="ph ph-map-pin"
+                                style="font-size: 20px;"></i> Ubicación</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROGRAMA (CRONOGRAMA TIPO CONFERENCIA) -->
+            <div id="view-schedule" class="view">
+                <div class="card-container">
+                    <button class="btn-back" onclick="switchView('view-credential')"><i class="ph ph-arrow-left"
+                            style="font-size: 20px;"></i> Ir a mi Credencial</button>
+                    <div class="form-header">
+                        <div class="icon-circle"><i class="ph ph-calendar-dots" style="font-size: 40px;"></i></div>
+                        <h3>Programa de Actividades</h3>
+                        <p>Jornada Espiritual Nacional 2026</p>
+                    </div>
+
+                    <div class="schedule-dual-grid">
+
+                        <!-- COLUMNA SÁBADO -->
+                        <div class="schedule-col">
+                            <div class="day-hero">
+                                <span class="d-name">Sábado</span>
+                                <span class="d-num">10</span> <!-- Cambia este número por la fecha real -->
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">09:30 - 10:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Inscripción de delegados y participantes</div>
+                                    <div class="s-desc">Hnos. Beatriz Ulloa Carreño y Daniel Verdejo Muñoz, 1ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">10:00 - 10:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Devocional jornada mañana</div>
+                                    <div class="s-desc">Hno. Julio Gallego Gajardo, 2ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">10:15 - 11:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 1: “El tiempo de la creación. ¿Días o millones de años?”
+                                        Parte
+                                        1</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">11:15 - 11:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tiempo de café</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">11:30 - 12:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 1: “El tiempo de la creación. ¿Días o millones de años?”
+                                        Parte
+                                        2</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">12:30 - 12:45</div>
+                                <div class="s-content">
+                                    <div class="s-title">Informaciones generales</div>
+                                    <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">12:45 - 13:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Fotografías de la 13ª Jornada</div>
+                                    <div class="s-desc">PL Hno. J. Samuel Pino Aguilera, 4ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">13:00 - 15:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Almuerzo</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">15:00 - 15:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Devocional jornada tarde</div>
+                                    <div class="s-desc">Dcno. José Espinoza Ñanculef, IMI Cajón</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">15:15 - 16:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 2: “Los hijos de Dios, las hijas de los hombres y la
+                                        destrucción del mundo antiguo”</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">16:15 - 16:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Periodo de alabanzas</div>
+                                    <div class="s-desc">Hno. Rodolfo Reyes Rivera, 5ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">16:30 - 17:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Taller práctico</div>
+                                    <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">17:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Clausura Jornada del viernes</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- COLUMNA DOMINGO -->
+                        <div class="schedule-col">
+                            <div class="day-hero">
+                                <span class="d-name">Domingo</span>
+                                <span class="d-num">11</span> <!-- Cambia este número por la fecha real -->
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">09:30 - 10:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Inscripción de delegados y participantes</div>
+                                    <div class="s-desc">Hnos. Beatriz Ulloa Carreño y Daniel Verdejo Muñoz, 1ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">10:00 - 10:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Devocional jornada mañana</div>
+                                    <div class="s-desc">PL Hno. Andrés Paredes Ramírez, 3a IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">10:15 - 11:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 3: ¿La caída de Adán y Eva es literal o poética? ¿Es una
+                                        serpiente real lo que describe Génesis 3?</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">11:15 - 11:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tiempo de café</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">11:30 - 12:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 4: ¿Es válido el Pacto de Dios con Noé en Génesis 22 o se
+                                        viene un colapso climático a la Tierra? Parte 1</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">12:30 - 12:45</div>
+                                <div class="s-content">
+                                    <div class="s-title">Informaciones generales</div>
+                                    <div class="s-desc">Pr. Joel Sandoval Henríquez, 2ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">12:30 - 12:45</div>
+                                <div class="s-content">
+                                    <div class="s-title">Periodo de alabanzas</div>
+                                    <div class="s-desc">Hno. Rodolfo Reyes Rivera, 5ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">12:45 - 13:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Fotografías de la 13ª Jornada</div>
+                                    <div class="s-desc">PL Hno. J. Samuel Pino Aguilera, 4ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">13:00 - 15:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Almuerzo</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">15:00 - 15:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Devocional jornada tarde</div>
+                                    <div class="s-desc">PL Hno. Marcelo Gómez Román, 5ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">15:15 - 16:15</div>
+                                <div class="s-content">
+                                    <div class="s-title">Tema 4: Es válido el Pacto de Dios con Noé en Génesis 22 o se
+                                        viene
+                                        un colapso climático a la Tierra? Parte 2</div>
+                                    <div class="s-desc">Dr. Ricardo Bravo Méndez</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">16:15 - 17:00</div>
+                                <div class="s-content">
+                                    <div class="s-title">Taller práctico</div>
+                                    <div class="s-desc">Pr. Daniel Horta Sepúlveda, 5ª IMI</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">17:00 - 17:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Refrigerio</div>
+                                </div>
+                            </div>
+
+                            <div class="s-item">
+                                <div class="s-time">17:30</div>
+                                <div class="s-content">
+                                    <div class="s-title">Culto de clausura</div>
+                                    <div class="s-desc">Preside: Pr. Daniel Jara Díaz, IMI PLC</div>
+                                    <div class="s-desc">Predicación: Pr. David Horta Sepúlveda, 3ª IMI</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div> <!-- Fin grid -->
+                </div>
+            </div>
+
+
+            <!-- UBICACIÓN Y MAPA -->
+            <div id="view-location" class="view">
+                <div class="card-container">
+                    <button class="btn-back" onclick="switchView('view-credential')"><i class="ph ph-arrow-left"
+                            style="font-size: 20px;"></i> Ir a mi Credencial</button>
+                    <div class="form-header">
+                        <div class="icon-circle"><i class="ph ph-map-pin" style="font-size: 40px;"></i></div>
+                        <h3>Ubicación de la Jornada</h3>
+                        <p>Tercera Iglesia Metodista Independiente</p>
+                    </div>
+
+                    <!-- Mapa de Google Embebido Adaptable -->
+                    <div class="map-wrapper">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.1673046343967!2d-70.71691892435982!3d-33.47099469856441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c49dca5de983%3A0xffc1dd64cd70778a!2sTercera%20Iglesia%20Metodista%20Independiente!5e0!3m2!1ses-419!2scl!4v1791066105524!5m2!1ses-419!2scl"
+                            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                    </div>
+
+                    <div class="location-info-grid">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="ph ph-map-pin-simple" style="font-size: 20px;"></i></div>
+                            <div class="info-text">
+                                <strong>Dirección</strong>
+                                <span>Tercera Iglesia Metodista Independiente<br>Santiago, Las Estepas 763, Estación
+                                    Central, Santiago, Región Metropolitana</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="ph ph-bus" style="font-size: 20px;"></i></div>
+                            <div class="info-text">
+                                <strong>Cómo llegar</strong>
+                                <span>Recomendamos planificar tu viaje con anticipación revisando las opciones de
+                                    locomoción
+                                    colectiva en google maps.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline" style="margin-top: 20px;"
+                        onclick="window.open('https://maps.google.com/?q=Tercera+Iglesia+Metodista+Independiente+Santiago', '_blank')">
+                        <i class="ph ph-arrow-square-out" style="font-size: 20px;"></i> Abrir en la app de Google Maps
                     </button>
-                    <button class="admin-tab" onclick="switchAdminTab('tab-lista', this)">
-                        <i class="ph ph-list-checks" style="font-size: 20px;"></i> Lista de Inscritos
-                    </button>
-                </div>
-
-                <!-- CONTENIDO PESTAÑA: MÉTRICAS -->
-                <div id="tab-metricas" class="admin-tab-content active-tab">
-                    <div class="dashboard-grid">
-                        <!-- Asistencia -->
-                        <div class="stat-card full-width">
-                            <div class="stat-icon primary"><i class="ph ph-users-three" style="font-size: 28px;"></i>
-                            </div>
-                            <div>
-                                <h3 id="stat-inscritos">0</h3>
-                                <p>Inscritos Totales</p>
-                            </div>
-                        </div>
-                        <div class="stat-card" style="text-align: center; display: block;">
-                            <p style="margin: 0 0 8px 0; font-weight: 600;">Sábado</p>
-                            <div style="font-size: 28px; font-weight: bold;">
-                                <span id="stat-asistentes-sabado" style="color: #3b82f6;">0</span><span
-                                    style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
-                                        id="stat-inscritos-sabado">0</span></span>
-                            </div>
-                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Validados /
-                                Inscritos</p>
-                        </div>
-                        <div class="stat-card" style="text-align: center; display: block;">
-                            <p style="margin: 0 0 8px 0; font-weight: 600;">Domingo</p>
-                            <div style="font-size: 28px; font-weight: bold;">
-                                <span id="stat-asistentes-domingo" style="color: #10b981;">0</span><span
-                                    style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
-                                        id="stat-inscritos-domingo">0</span></span>
-                            </div>
-                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Validados /
-                                Inscritos</p>
-                        </div>
-                    </div>
-
-                    <div class="scan-section" style="display: flex; flex-direction: column; margin-bottom: 30px;">
-                        <button id="btn-iniciar-asistencia" class="btn btn-primary btn-scan" onclick="iniciarEscaner('asistencia')"
-                            style="width: 100% !important;">
-                            <i class="ph-bold ph-camera" style="font-size: 22px;"></i> Escanear QR de la Credencial
-                            (Ingreso)</button>
-                        <button id="btn-cerrar-asistencia" class="btn btn-secondary btn-scan" onclick="cerrarEscaner('asistencia')"
-                            style="display: none !important; width: 100% !important; border: 1px solid #e2e8f0; color: #475569; background: #f8fafc; margin-top: 10px;">
-                            <i class="ph-bold ph-x-circle" style="font-size: 22px;"></i> Apagar Cámara (Ingreso)</button>
-                        <button id="btn-manual-asistencia" class="btn btn-outline btn-scan" onclick="abrirModalManual('asistencia')"
-                            style="width: 100% !important; margin-top: 8px; border: 1.5px solid #2563eb; color: #2563eb; background: #eff6ff; font-weight: 600;">
-                            <i class="ph-bold ph-identification-card" style="font-size: 20px;"></i> Buscar por Nombre / Lista (Sin QR - Ingreso)</button>
-                        <div id="reader-asistencia"
-                            style="width: 100%; max-width: 100%; margin-top: 15px; display: none;"></div>
-                        <div id="scan-result-asistencia" class="scan-alert"
-                            style="width: 100%; max-width: 100%; display: none;"></div>
-                    </div>
-
-                    <div class="dashboard-grid">
-                        <!-- Almuerzos -->
-                        <div class="stat-card full-width">
-                            <div class="stat-icon warning"><i class="ph ph-fork-knife" style="font-size: 28px;"></i>
-                            </div>
-                            <div>
-                                <h3 style="font-size: 20px; margin-bottom: 4px;">Sábado: <span
-                                        id="stat-almuerzos-resumen-sabado">0</span> <span
-                                        style="color: var(--border-color); margin: 0 8px;">|</span> Domingo: <span
-                                        id="stat-almuerzos-resumen-domingo">0</span></h3>
-                                <p>Almuerzos Solicitados por Día</p>
-                            </div>
-                        </div>
-                        <div class="stat-card" style="text-align: center; display: block;">
-                            <p style="margin: 0 0 8px 0; font-weight: 600;">Sábado</p>
-                            <div style="font-size: 28px; font-weight: bold;">
-                                <span id="stat-almuerzos-entregados-sabado" style="color: #f59e0b;">0</span><span
-                                    style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
-                                        id="stat-almuerzos-sabado">0</span></span>
-                            </div>
-                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Entregados /
-                                Solicitados</p>
-                        </div>
-                        <div class="stat-card" style="text-align: center; display: block;">
-                            <p style="margin: 0 0 8px 0; font-weight: 600;">Domingo</p>
-                            <div style="font-size: 28px; font-weight: bold;">
-                                <span id="stat-almuerzos-entregados-domingo" style="color: #f59e0b;">0</span><span
-                                    style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
-                                        id="stat-almuerzos-domingo">0</span></span>
-                            </div>
-                            <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Entregados /
-                                Solicitados</p>
-                        </div>
-                    </div>
-
-                    <div class="scan-section" style="display: flex; flex-direction: column; margin-bottom: 20px;">
-                        <button id="btn-iniciar-almuerzo" class="btn btn-warning btn-scan" onclick="iniciarEscaner('almuerzo')"
-                            style="width: 100% !important; background-color: #f59e0b; color: white; border-color: #f59e0b;">
-                            <i class="ph-bold ph-camera" style="font-size: 22px;"></i> Escanear QR de la Credencial
-                            (Almuerzos)</button>
-                        <button id="btn-cerrar-almuerzo" class="btn btn-secondary btn-scan" onclick="cerrarEscaner('almuerzo')"
-                            style="display: none !important; width: 100% !important; border: 1px solid #e2e8f0; color: #475569; background: #f8fafc; margin-top: 10px;">
-                            <i class="ph-bold ph-x-circle" style="font-size: 22px;"></i> Apagar Cámara (Almuerzos)</button>
-                        <button id="btn-manual-almuerzo" class="btn btn-outline btn-scan" onclick="abrirModalManual('almuerzo')"
-                            style="width: 100% !important; margin-top: 8px; border: 1.5px solid #f59e0b; color: #b45309; background: #fffbeb; font-weight: 600;">
-                            <i class="ph-bold ph-fork-knife" style="font-size: 20px;"></i> Buscar por Nombre / Lista (Sin QR - Almuerzos)</button>
-                        <div id="reader-almuerzo"
-                            style="width: 100%; max-width: 100%; margin-top: 15px; display: none;"></div>
-                        <div id="scan-result-almuerzo" class="scan-alert"
-                            style="width: 100%; max-width: 100%; display: none;"></div>
-                    </div>
-                </div>
-
-                <!-- CONTENIDO PESTAÑA: LISTA -->
-                <div id="tab-lista" class="admin-tab-content">
-                    <div class="admin-table-header">
-                        <h3>Lista de Inscritos</h3>
-                        <div class="search-box">
-                            <i class="ph ph-magnifying-glass" style="font-size: 20px;"></i>
-                            <input type="text" id="adminSearch" placeholder="Buscar participante, iglesia, días..."
-                                onkeyup="filtrarTablaAdmin()">
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="admin-table" id="tablaParticipantes">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Nombre Completo</th>
-                                    <th>Mail</th>
-                                    <th>Teléfono</th>
-                                    <th>Iglesia</th>
-                                    <th>Días de Asistencia</th>
-                                    <th>Alimentación</th>
-                                    <th>Estado Almuerzo</th>
-                                    <th>Alojamiento</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-body">
-                                <!-- Filas generadas por JS -->
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
-        </div>
-    </main>
-</div>
 
-<!-- MODAL DE EDICIÓN -->
-<div id="editModal" class="modal-overlay">
-    <div class="modal-content card-container">
-        <div class="modal-header">
-            <h3>Editar Participante</h3>
-            <button type="button" class="btn-close" onclick="cerrarModal()"><i class="ph-bold ph-x"></i></button>
-        </div>
-
-        <input type="hidden" id="edit-rowIndex">
-
-        <div class="form-grid">
-            <div class="form-group col-span-2">
-                <label class="input-label">Nombre Completo</label>
-                <input type="text" id="edit-nombre" class="input-field">
+            <!-- LOGIN ADMIN -->
+            <div id="view-admin-login" class="view">
+                <div class="card-container form-card">
+                    <button class="btn-back" onclick="switchView('view-home')"><i class="ph ph-arrow-left"
+                            style="font-size: 20px;"></i> Ir al Inicio</button>
+                    <div class="form-header">
+                        <div class="icon-circle admin-icon"><i class="ph ph-lock" style="font-size: 40px;"></i></div>
+                        <h3>Acceso Administrador</h3>
+                        <p>Introduce la clave de administrador para acceder al panel de control</p>
+                    </div>
+                    <input type="password" id="adminPass" class="input-field" placeholder="••••••••">
+                    <div style="text-align: center;">
+                        <button class="btn btn-primary" onclick="loginAdmin()">Ingresar al Panel</button>
+                    </div>
+                    <p id="admin-error" class="error-msg"><i class="ph-bold ph-warning-circle"
+                            style="font-size: 14px;"></i>
+                        Clave incorrecta, ingrese la clave correcta nuevamente</p>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="input-label">Mail</label>
-                <input type="email" id="edit-correo" class="input-field">
+            <!-- DASHBOARD ADMIN -->
+            <div id="view-admin-dashboard" class="view">
+                <div class="dashboard-wrapper">
+                    <div class="dashboard-topbar">
+                        <div>
+                            <h3>Panel de Control</h3>
+                            <p>Control de asistencia de la Jornada en tiempo real</p>
+                        </div>
+                        <div class="admin-actions">
+                            <button class="btn-icon" onclick="cargarDatosDashboard()" title="Actualizar datos" aria-label="Actualizar datos">
+                                <i class="ph ph-arrows-clockwise" style="font-size: 20px;" id="sync-icon" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn-icon btn-logout" onclick="switchView('view-home')"
+                                title="Cerrar sesión" aria-label="Cerrar sesión"><i class="ph ph-sign-out" style="font-size: 20px;" aria-hidden="true"></i> Cerrar
+                                Sesión</button>
+                        </div>
+                    </div>
+
+                    <!-- NUEVAS PESTAÑAS -->
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" onclick="switchAdminTab('tab-metricas', this)">
+                            <i class="ph ph-chart-pie" style="font-size: 20px;"></i> Dashboard
+                        </button>
+                        <button class="admin-tab" onclick="switchAdminTab('tab-lista', this)">
+                            <i class="ph ph-list-checks" style="font-size: 20px;"></i> Lista de Inscritos
+                        </button>
+                    </div>
+
+                    <!-- CONTENIDO PESTAÑA: MÉTRICAS -->
+                    <div id="tab-metricas" class="admin-tab-content active-tab">
+                        <div class="dashboard-grid">
+                            <!-- Total Inscritos -->
+                            <div class="stat-card">
+                                <div class="stat-icon primary"><i class="ph ph-users-three"
+                                        style="font-size: 28px;"></i>
+                                </div>
+                                <div>
+                                    <h3 id="stat-inscritos">0</h3>
+                                    <p>Inscritos Totales</p>
+                                </div>
+                            </div>
+
+                            <!-- Asistentes Sábado 24 -->
+                            <div class="stat-card" style="text-align: center; display: block;">
+                                <p style="margin: 0 0 8px 0; font-weight: 600;"><i class="ph-bold ph-calendar-check"
+                                        style="color: #3b82f6;"></i> Asistencia (Sábado 24)</p>
+                                <div style="font-size: 28px; font-weight: bold;">
+                                    <span id="stat-asistentes" style="color: #3b82f6;">0</span><span
+                                        style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
+                                            id="stat-inscritos-total">0</span></span>
+                                </div>
+                                <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Validados /
+                                    Inscritos</p>
+                            </div>
+
+                            <!-- Almuerzos Entregados -->
+                            <div class="stat-card" style="text-align: center; display: block;">
+                                <p style="margin: 0 0 8px 0; font-weight: 600;"><i class="ph-bold ph-fork-knife"
+                                        style="color: #f59e0b;"></i> Almuerzos (Sábado 24)</p>
+                                <div style="font-size: 28px; font-weight: bold;">
+                                    <span id="stat-almuerzos-entregados" style="color: #f59e0b;">0</span><span
+                                        style="font-size: 18px; color: var(--text-muted); font-weight: normal;">/<span
+                                            id="stat-almuerzos-solicitados">0</span></span>
+                                </div>
+                                <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Entregados /
+                                    Solicitados</p>
+                            </div>
+
+                            <!-- Resumen Estado Pagos -->
+                            <div class="stat-card" style="text-align: center; display: block;">
+                                <p style="margin: 0 0 8px 0; font-weight: 600;"><i class="ph-bold ph-receipt"
+                                        style="color: #10b981;"></i> Estados de Pago</p>
+                                <div style="font-size: 20px; font-weight: bold; margin-top: 4px;">
+                                    <span id="stat-pagos-completos" style="color: #10b981;">0</span> <span
+                                        style="font-size: 13px; font-weight: normal; color: var(--text-muted);">Pagados</span>
+                                    <span style="color: var(--border-color); margin: 0 6px;">|</span>
+                                    <span id="stat-pagos-pendientes" style="color: #ef4444;">0</span> <span
+                                        style="font-size: 13px; font-weight: normal; color: var(--text-muted);">Pendientes</span>
+                                </div>
+                                <p style="margin: 4px 0 0 0; font-size: 12px; color: var(--text-muted);">Control de
+                                    almuerzo</p>
+                            </div>
+                        </div>
+
+                        <div class="scan-section" style="display: flex; flex-direction: column; margin-bottom: 25px;">
+                            <button id="btn-iniciar-asistencia" class="btn btn-primary btn-scan"
+                                onclick="iniciarEscaner('asistencia')" style="width: 100% !important;">
+                                <i class="ph-bold ph-camera" style="font-size: 22px;"></i> Escanear QR de la Credencial
+                                (Ingreso Sábado 24)</button>
+                            <button id="btn-cerrar-asistencia" class="btn btn-secondary btn-scan"
+                                onclick="cerrarEscaner('asistencia')"
+                                style="display: none !important; width: 100% !important; border: 1px solid #e2e8f0; color: #475569; background: #f8fafc; margin-top: 10px;">
+                                <i class="ph-bold ph-x-circle" style="font-size: 22px;"></i> Apagar Cámara
+                                (Ingreso)</button>
+                            <button id="btn-manual-asistencia" class="btn btn-outline btn-scan"
+                                onclick="abrirModalManual('asistencia')"
+                                style="width: 100% !important; margin-top: 8px; border: 1.5px solid #2563eb; color: #2563eb; background: #eff6ff; font-weight: 600;">
+                                <i class="ph-bold ph-identification-card" style="font-size: 20px;"></i> Buscar por
+                                Nombre / Lista (Sin QR - Ingreso Sábado 24)</button>
+                            <div id="reader-asistencia"
+                                style="width: 100%; max-width: 100%; margin-top: 15px; display: none;"></div>
+                            <div id="scan-result-asistencia" class="scan-alert"
+                                style="width: 100%; max-width: 100%; display: none;"></div>
+                        </div>
+
+                        <div class="scan-section" style="display: flex; flex-direction: column; margin-bottom: 20px;">
+                            <button id="btn-iniciar-almuerzo" class="btn btn-warning btn-scan"
+                                onclick="iniciarEscaner('almuerzo')"
+                                style="width: 100% !important; background-color: #f59e0b; color: white; border-color: #f59e0b;">
+                                <i class="ph-bold ph-camera" style="font-size: 22px;"></i> Escanear QR de la Credencial
+                                (Almuerzo Sábado 24)</button>
+                            <button id="btn-cerrar-almuerzo" class="btn btn-secondary btn-scan"
+                                onclick="cerrarEscaner('almuerzo')"
+                                style="display: none !important; width: 100% !important; border: 1px solid #e2e8f0; color: #475569; background: #f8fafc; margin-top: 10px;">
+                                <i class="ph-bold ph-x-circle" style="font-size: 22px;"></i> Apagar Cámara
+                                (Almuerzo)</button>
+                            <button id="btn-manual-almuerzo" class="btn btn-outline btn-scan"
+                                onclick="abrirModalManual('almuerzo')"
+                                style="width: 100% !important; margin-top: 8px; border: 1.5px solid #f59e0b; color: #b45309; background: #fffbeb; font-weight: 600;">
+                                <i class="ph-bold ph-fork-knife" style="font-size: 20px;"></i> Buscar por Nombre / Lista
+                                (Sin QR - Almuerzo Sábado 24)</button>
+                            <div id="reader-almuerzo"
+                                style="width: 100%; max-width: 100%; margin-top: 15px; display: none;"></div>
+                            <div id="scan-result-almuerzo" class="scan-alert"
+                                style="width: 100%; max-width: 100%; display: none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- CONTENIDO PESTAÑA: LISTA -->
+                    <div id="tab-lista" class="admin-tab-content">
+                        <div class="admin-table-header">
+                            <h3>Lista de Inscritos</h3>
+                            <div class="search-box">
+                                <i class="ph ph-magnifying-glass" style="font-size: 20px;"></i>
+                                <input type="text" id="adminSearch"
+                                    placeholder="Buscar por nombre, denominación, iglesia..."
+                                    onkeyup="filtrarTablaAdmin()">
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="admin-table" id="tablaParticipantes">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Denominación</th>
+                                        <th>Iglesia</th>
+                                        <th>¿Almorzará?</th>
+                                        <th>Asistencia (Sáb 24)</th>
+                                        <th>Almuerzo (Sáb 24)</th>
+                                        <th>Estado Pago</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-body">
+                                    <!-- Filas generadas por JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE EDICIÓN -->
+    <div id="editModal" class="modal-overlay">
+        <div class="modal-content card-container">
+            <div class="modal-header">
+                <h3>Editar Participante</h3>
+                <button type="button" class="btn-close" onclick="cerrarModal()" aria-label="Cerrar edición"><i class="ph-bold ph-x" aria-hidden="true"></i></button>
             </div>
 
-            <div class="form-group">
-                <label class="input-label">Teléfono</label>
-                <input type="text" id="edit-telefono" class="input-field">
+            <input type="hidden" id="edit-rowIndex">
+
+            <div class="form-grid">
+                <div class="form-group col-span-2">
+                    <label class="input-label">Nombre Completo</label>
+                    <input type="text" id="edit-nombre" class="input-field">
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label">Denominación</label>
+                    <input type="text" id="edit-denominacion" class="input-field"
+                        placeholder="Ej: Iglesia Evangélica...">
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label">Iglesia</label>
+                    <input type="text" id="edit-iglesia" class="input-field" placeholder="Ej: 1° IEA Santiago">
+                </div>
+
+                <div class="form-group">
+                    <label class="input-label">¿Almorzará?</label>
+                    <select id="edit-almuerzo" class="input-field" onchange="toggleCheckboxes()">
+                        <option value="Sí">Sí</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="group-edit-estado-almuerzo">
+                    <label class="input-label">Estado de Pago</label>
+                    <select id="edit-estado-almuerzo" class="input-field">
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Pago completo">Pago completo</option>
+                        <option value="Almuerzo subvencionado">Almuerzo subvencionado</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group col-span-2">
-                <label class="input-label">Iglesia</label>
-                <select id="edit-iglesia-select" class="input-field" onchange="toggleIglesiaInput()">
-                    <option value="">Seleccione</option>
-                    <option value="1era IMI">1era IMI</option>
-                    <option value="2da IMI">2da IMI</option>
-                    <option value="3era IMI">3era IMI</option>
-                    <option value="4ta IMI">4ta IMI</option>
-                    <option value="5ta IMI">5ta IMI</option>
-                    <option value="IMI Temuco - Padre Las Casas">IMI Temuco - Padre Las Casas</option>
-                    <option value="IMI Temuco - Cajón">IMI Temuco - Cajón</option>
-                    <option value="IMI Rancagua">IMI Rancagua</option>
-                    <option value="Otros">Otros (Especificar)</option>
-                </select>
-                <input type="text" id="edit-iglesia-otro" class="input-field"
-                    placeholder="Escribe el nombre de la Iglesia" style="display: none; margin-top: 8px;">
+            <hr style="border: 0; height: 1px; background: var(--border-color); margin: 25px 0;">
+
+            <!-- Validaciones Manuales (Check-in) -->
+            <label class="input-label" style="font-weight: 700; color: var(--primary);">Validaciones Manuales
+                (Check-in)</label>
+            <p style="font-size: 13px; color: var(--text-muted); margin-top: -3px; margin-bottom: 12px;">Marca o
+                desmarca los estados para sobreescribir la asistencia o entrega de almuerzo.</p>
+
+            <div
+                style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
+                    <input type="checkbox" id="edit-asis-sab"
+                        style="width: 18px; height: 18px; accent-color: var(--primary);">
+                    <span style="font-weight: 500;">Asistió (Sábado 24)</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
+                    <input type="checkbox" id="edit-alm-sab" style="width: 18px; height: 18px; accent-color: #d97706;">
+                    <span style="font-weight: 500;">Almuerzo Entregado (Sábado 24)</span>
+                </label>
             </div>
 
-            <div class="form-group">
-                <label class="input-label">Días de Asistencia</label>
-                <select id="edit-dias" class="input-field" onchange="toggleCheckboxes()">
-                    <option value="">Seleccione</option>
-                    <option value="sólo Sábado">sólo Sábado</option>
-                    <option value="sólo Domingo">sólo Domingo</option>
-                    <option value="Sábado y Domingo">Sábado y Domingo</option>
-                </select>
+            <div class="action-grid" style="margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="cerrarModal()"><i class="ph ph-x-circle"
+                        style="font-size: 20px;"></i> Cancelar</button>
+                <button class="btn btn-primary" onclick="guardarEdicion()"><i class="ph ph-floppy-disk"
+                        style="font-size: 20px;"></i> Guardar</button>
             </div>
-
-            <div class="form-group">
-                <label class="input-label">Almuerzo</label>
-                <select id="edit-almuerzo" class="input-field" onchange="toggleCheckboxes()">
-                    <option value="">Seleccione</option>
-                    <option value="sólo Domingo">sólo Domingo</option>
-                    <option value="sólo Sábado">sólo Sábado</option>
-                    <option value="Sábado y Domingo">Sábado y Domingo</option>
-                    <option value="No requeriré almuerzo">No requeriré almuerzo</option>
-                </select>
-            </div>
-
-            <div class="form-group col-span-2 is-hidden" id="group-edit-estado-almuerzo" style="display: none !important;">
-                <label class="input-label">Estado Almuerzo</label>
-                <select id="edit-estado-almuerzo" class="input-field">
-                    <option value="Pendiente">Pendiente</option>
-                    <option value="Pago completo">Pago completo</option>
-                    <option value="Pago diario" id="opt-edit-pago-diario">Pago diario</option>
-                    <option value="Almuerzo subvencionado">Almuerzo subvencionado</option>
-                </select>
-            </div>
-
-            <div class="form-group col-span-2">
-                <label class="input-label">Alojamiento</label>
-                <select id="edit-alojamiento" class="input-field">
-                    <option value="">Seleccione</option>
-                    <option value="Si, requeriré alojamiento">Si, requeriré alojamiento</option>
-                    <option value="No, requeriré alojamiento">No, requeriré alojamiento</option>
-                </select>
-            </div>
-        </div>
-
-        <hr style="border: 0; height: 1px; background: var(--border-color); margin: 25px 0;">
-
-        <!-- Validaciones Manuales (Check-in) -->
-        <label class="input-label" style="font-weight: 700; color: var(--primary);">Validaciones Manuales
-            (Check-in)</label>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: -3px; margin-bottom: 12px;">Marca o desmarca
-            los estados para sobreescribir la asistencia del participante manualmente.</p>
-
-        <div
-            style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0;">
-            <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
-                <input type="checkbox" id="edit-asis-sab"
-                    style="width: 18px; height: 18px; accent-color: var(--primary);">
-                <span style="font-weight: 500;">Asistió Sábado</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
-                <input type="checkbox" id="edit-asis-dom"
-                    style="width: 18px; height: 18px; accent-color: var(--primary);">
-                <span style="font-weight: 500;">Asistió Domingo</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
-                <input type="checkbox" id="edit-alm-sab" style="width: 18px; height: 18px; accent-color: #d97706;">
-                <span style="font-weight: 500;">Almuerzo Sábado</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 10px; font-size: 14px; cursor: pointer;">
-                <input type="checkbox" id="edit-alm-dom" style="width: 18px; height: 18px; accent-color: #d97706;">
-                <span style="font-weight: 500;">Almuerzo Domingo</span>
-            </label>
-        </div>
-
-        <div class="action-grid" style="margin-top: 20px;">
-            <button class="btn btn-secondary" onclick="cerrarModal()"><i class="ph ph-x-circle"
-                    style="font-size: 20px;"></i> Cancelar</button>
-            <button class="btn btn-primary" onclick="guardarEdicion()"><i class="ph ph-floppy-disk"
-                    style="font-size: 20px;"></i> Guardar</button>
         </div>
     </div>
-</div>
 
-<!-- MODAL DE VALIDACIÓN MANUAL (SIN QR) -->
-<div id="modalManualCheckin" class="modal-overlay" style="display: none;">
-    <div class="modal-content card-container" style="max-width: 680px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; padding: 24px;">
-        <div class="modal-header" style="margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
-            <div>
-                <h3 id="manual-modal-title" style="margin: 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
-                    <i class="ph-bold ph-identification-card" style="font-size: 24px; color: var(--primary);"></i>
-                    Validación Manual (Sin QR)
-                </h3>
-                <p id="manual-modal-subtitle" style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">
-                    Busca a la persona para registrar su asistencia o entrega de almuerzo
-                </p>
-            </div>
-            <button type="button" class="btn-close" onclick="cerrarModalManual()"><i class="ph-bold ph-x"></i></button>
-        </div>
-
-        <!-- Buscador y Filtros -->
-        <div class="manual-filters-box" style="margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px;">
-            <div class="search-box" style="width: 100%;">
-                <i class="ph ph-magnifying-glass" style="font-size: 20px;"></i>
-                <input type="text" id="manualSearchInput" placeholder="Escribe nombre o apellido..." oninput="filtrarListaManual()">
+    <!-- MODAL DE VALIDACIÓN MANUAL (SIN QR) -->
+    <div id="modalManualCheckin" class="modal-overlay" style="display: none;">
+        <div class="modal-content card-container"
+            style="max-width: 680px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; padding: 24px;">
+            <div class="modal-header"
+                style="margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+                <div>
+                    <h3 id="manual-modal-title"
+                        style="margin: 0; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                        <i class="ph-bold ph-identification-card" style="font-size: 24px; color: var(--primary);"></i>
+                        Validación Manual (Sin QR)
+                    </h3>
+                    <p id="manual-modal-subtitle" style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-muted);">
+                        Busca a la persona para registrar su asistencia o entrega de almuerzo (Sábado 24)
+                    </p>
+                </div>
+                <button type="button" class="btn-close" onclick="cerrarModalManual()" aria-label="Cerrar validación manual"><i
+                        class="ph-bold ph-x" aria-hidden="true"></i></button>
             </div>
 
-            <!-- Filtros rápidos de día y almuerzo -->
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
-                <!-- Filtro de Días -->
-                <div class="manual-filter-group" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                    <span style="font-size: 12px; font-weight: 600; color: #475569;"><i class="ph-bold ph-calendar"></i> Día:</span>
-                    <button type="button" class="btn-filter-tag active" data-filter-dia="todos" onclick="setManualFilterDia('todos', this)">Todos</button>
-                    <button type="button" class="btn-filter-tag" data-filter-dia="sabado" onclick="setManualFilterDia('sabado', this)">Sábado</button>
-                    <button type="button" class="btn-filter-tag" data-filter-dia="domingo" onclick="setManualFilterDia('domingo', this)">Domingo</button>
+            <!-- Buscador y Filtros -->
+            <div class="manual-filters-box"
+                style="margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px;">
+                <div class="search-box" style="width: 100%;">
+                    <i class="ph ph-magnifying-glass" style="font-size: 20px;"></i>
+                    <input type="text" id="manualSearchInput" placeholder="Escribe nombre, denominación o iglesia..."
+                        oninput="filtrarListaManual()">
                 </div>
 
-                <!-- Filtro de Almuerzo/Pago -->
-                <div id="manual-pago-filter-group" class="manual-filter-group" style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
-                    <span style="font-size: 12px; font-weight: 600; color: #475569;"><i class="ph-bold ph-receipt"></i> Pago:</span>
-                    <button type="button" class="btn-filter-tag active" data-filter-pago="todos" onclick="setManualFilterPago('todos', this)">Todos</button>
-                    <button type="button" class="btn-filter-tag" data-filter-pago="completo" onclick="setManualFilterPago('completo', this)">Pago completo</button>
-                    <button type="button" class="btn-filter-tag" data-filter-pago="diario" onclick="setManualFilterPago('diario', this)">Pago diario</button>
-                    <button type="button" class="btn-filter-tag" data-filter-pago="pendiente" onclick="setManualFilterPago('pendiente', this)">Pendientes</button>
+                <!-- Filtros rápidos de pago -->
+                <div
+                    style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; background: #f8fafc; padding: 8px 12px; border-radius: 10px; border: 1px solid #e2e8f0;">
+                    <div class="manual-filter-group"
+                        style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-size: 12px; font-weight: 600; color: #475569;"><i
+                                class="ph-bold ph-calendar"></i> Fecha:</span>
+                        <span
+                            style="font-size: 12px; font-weight: 600; color: #2563eb; background: #eff6ff; padding: 2px 8px; border-radius: 6px;">Sábado
+                            24</span>
+                    </div>
+
+                    <!-- Filtro de Almuerzo/Pago -->
+                    <div id="manual-pago-filter-group" class="manual-filter-group"
+                        style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap;">
+                        <span style="font-size: 12px; font-weight: 600; color: #475569;"><i
+                                class="ph-bold ph-receipt"></i> Pago:</span>
+                        <button type="button" class="btn-filter-tag active" data-filter-pago="todos"
+                            onclick="setManualFilterPago('todos', this)">Todos</button>
+                        <button type="button" class="btn-filter-tag" data-filter-pago="completo"
+                            onclick="setManualFilterPago('completo', this)">Pagados</button>
+                        <button type="button" class="btn-filter-tag" data-filter-pago="pendiente"
+                            onclick="setManualFilterPago('pendiente', this)">Pendientes</button>
+                        <button type="button" class="btn-filter-tag" data-filter-pago="subvencionado"
+                            onclick="setManualFilterPago('subvencionado', this)">Subvencionado</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Barra informativa de resultados -->
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); padding: 0 4px;">
-            <span id="manual-results-count">Cargando...</span>
-            <span id="manual-tipo-indicador" style="font-weight: 600;"></span>
-        </div>
+            <!-- Barra informativa de resultados -->
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: var(--text-muted); padding: 0 4px;">
+                <span id="manual-results-count">Cargando...</span>
+                <span id="manual-tipo-indicador" style="font-weight: 600;"></span>
+            </div>
 
-        <!-- Lista scrollable de tarjetas -->
-        <div id="manual-results-list" style="overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; min-height: 260px; max-height: 48vh;">
-            <!-- Generado dinámicamente -->
-        </div>
+            <!-- Lista scrollable de tarjetas -->
+            <div id="manual-results-list"
+                style="overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 10px; padding-right: 4px; min-height: 260px; max-height: 48vh;">
+                <!-- Generado dinámicamente -->
+            </div>
 
-        <div class="action-grid" style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border-color);">
-            <button class="btn btn-secondary" onclick="cerrarModalManual()"><i class="ph-bold ph-x"></i> Cerrar</button>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL DE VALIDACIÓN DE ESCÁNER -->
-<div id="scanValidationModal" class="modal-overlay" style="display: none;">
-    <div class="modal-content card-container" style="text-align: center;">
-        <div class="modal-header">
-            <h3 id="scan-val-title">Validación</h3>
-        </div>
-        <div style="margin: 15px 0;">
-            <i class="ph ph-user-circle-check" style="font-size: 40px; color: var(--primary-color);"></i>
-            <h2 id="scan-val-nombre" style="margin: 10px 0 5px 0;">Cargando...</h2>
-            <p id="scan-val-info" style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">--</p>
-        </div>
-
-        <div id="scan-val-actions" style="display: flex; flex-direction: column; gap: 10px;">
-            <!-- Botones generados dinámicamente aquí -->
-        </div>
-
-        <div class="action-grid" style="margin-top: 20px;">
-            <button class="btn btn-secondary" onclick="cerrarModalValidacion()"><i class="ph-bold ph-x"></i>
-                Cerrar</button>
+            <div class="action-grid"
+                style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border-color);">
+                <button class="btn btn-secondary" onclick="cerrarModalManual()"><i class="ph-bold ph-x"></i>
+                    Cerrar</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- TOAST CONTAINER -->
-<div id="toast-container" class="toast-container"></div>
+    <!-- MODAL DE VALIDACIÓN DE ESCÁNER -->
+    <div id="scanValidationModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content card-container" style="text-align: center;">
+            <div class="modal-header">
+                <h3 id="scan-val-title">Validación</h3>
+            </div>
+            <div style="margin: 15px 0;">
+                <i class="ph ph-user-circle-check" style="font-size: 40px; color: var(--primary-color);"></i>
+                <h2 id="scan-val-nombre" style="margin: 10px 0 5px 0;">Cargando...</h2>
+                <p id="scan-val-info" style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">--</p>
+            </div>
 
-<!-- Script de lógica cliente -->
-<script src="logica.js"></script>
+            <div id="scan-val-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Botones generados dinámicamente aquí -->
+            </div>
+
+            <div class="action-grid" style="margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="cerrarModalValidacion()" aria-label="Cerrar validación"><i class="ph-bold ph-x" aria-hidden="true"></i>
+                    Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Script de lógica cliente -->
+    <script src="logica.js"></script>
 </body>
+
 </html>
