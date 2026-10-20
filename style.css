@@ -410,6 +410,7 @@ html, body {
     font-size: clamp(55px, 10vw, 75px) !important;
     /* Fluido: crece en pantallas grandes */
     font-weight: 800 !important;
+	margin-left: 20px !important;
     color: var(--primary) !important;
     line-height: 0.8 !important;
     letter-spacing: -3px !important;
