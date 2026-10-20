@@ -456,6 +456,36 @@ function filtrarTablaAdmin() {
     }
 }
 
+// ─── GESTIÓN DE SCROLL Y MODALES ──────────────────────────────
+var _modalOpen = false;
+let _scrollLockY = 0;
+
+function bloquearScrollFondo() {
+    _scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+    document.documentElement.classList.add('no-scroll');
+    document.body.classList.add('no-scroll');
+    _modalOpen = true;
+
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+    }
+}
+
+function desbloquearScrollFondo() {
+    document.documentElement.classList.remove('no-scroll');
+    document.body.classList.remove('no-scroll');
+    _modalOpen = false;
+
+    if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    }
+
+    if (typeof _scrollLockY === 'number') {
+        window.scrollTo(0, _scrollLockY);
+    }
+    setTimeout(sendHeightToParent, 50);
+}
+
 // ─── MODAL DE EDICIÓN ───────────────────────────────────────
 function abrirModalEditar(sheetRowIndex) {
     if (!_datosCache) return;
@@ -493,16 +523,13 @@ function abrirModalEditar(sheetRowIndex) {
     toggleCheckboxes();
 
     const editModal = document.getElementById('editModal');
-    editModal.style.display = 'flex';
-    document.body.classList.add('no-scroll');
-    _modalOpen = true;
-
-    if (window.parent && window.parent !== window) {
-        document.body.classList.add('in-iframe');
-        const currentScroll = window.scrollY || document.documentElement.scrollTop || 0;
-        editModal.style.top = Math.max(0, currentScroll) + 'px';
-        window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+    if (editModal) {
+        editModal.style.top = '';
+        editModal.style.display = 'flex';
+        const modalContent = editModal.querySelector('.modal-content');
+        if (modalContent) modalContent.scrollTop = 0;
     }
+    bloquearScrollFondo();
 }
 
 function toggleCheckboxes() {
@@ -527,13 +554,12 @@ function toggleCheckboxes() {
 }
 
 function cerrarModal() {
-    document.getElementById('editModal').style.display = 'none';
-    document.body.classList.remove('no-scroll');
-    _modalOpen = false;
-    if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    const editModal = document.getElementById('editModal');
+    if (editModal) {
+        editModal.style.display = 'none';
+        editModal.style.top = '';
     }
-    setTimeout(sendHeightToParent, 50);
+    desbloquearScrollFondo();
 }
 
 function guardarEdicion() {
@@ -746,20 +772,23 @@ function abrirModalValidacion(sheetRowIndex, tipo) {
         actionsContainer.innerHTML = `<button class="btn btn-primary" onclick="registrarCheckin(${sheetRowIndex}, '${tipo}', this)"><i class="ph ph-check" style="font-size: 20px;"></i> ${accionTexto}</button>`;
     }
 
-    document.getElementById('scanValidationModal').style.display = 'flex';
-    _modalOpen = true;
-    if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
+    const scanModal = document.getElementById('scanValidationModal');
+    if (scanModal) {
+        scanModal.style.top = '';
+        scanModal.style.display = 'flex';
+        const modalContent = scanModal.querySelector('.modal-content');
+        if (modalContent) modalContent.scrollTop = 0;
     }
+    bloquearScrollFondo();
 }
 
 function cerrarModalValidacion() {
-    document.getElementById('scanValidationModal').style.display = 'none';
-    _modalOpen = false;
-    if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    const scanModal = document.getElementById('scanValidationModal');
+    if (scanModal) {
+        scanModal.style.display = 'none';
+        scanModal.style.top = '';
     }
-    setTimeout(sendHeightToParent, 50);
+    desbloquearScrollFondo();
     setTimeout(() => {
         _scanPaused = false;
     }, 1000);
@@ -878,12 +907,11 @@ function abrirModalManual(tipo) {
 
     const modal = document.getElementById('modalManualCheckin');
     if (modal) {
+        modal.style.top = '';
         modal.style.display = 'flex';
-        _modalOpen = true;
-        if (window.parent && window.parent !== window) {
-            window.parent.postMessage({ type: 'lock-scroll', locked: true }, '*');
-        }
-        document.body.classList.add('no-scroll');
+        const modalContent = modal.querySelector('.modal-content');
+        if (modalContent) modalContent.scrollTop = 0;
+        bloquearScrollFondo();
     }
 
     if (!_datosCache) {
@@ -904,13 +932,11 @@ function abrirModalManual(tipo) {
 
 function cerrarModalManual() {
     const modal = document.getElementById('modalManualCheckin');
-    if (modal) modal.style.display = 'none';
-    _modalOpen = false;
-    if (window.parent && window.parent !== window) {
-        window.parent.postMessage({ type: 'lock-scroll', locked: false }, '*');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.style.top = '';
     }
-    setTimeout(sendHeightToParent, 50);
-    document.body.classList.remove('no-scroll');
+    desbloquearScrollFondo();
 }
 
 function setManualFilterPago(pago, btn) {
@@ -1136,21 +1162,28 @@ window.filtrarListaManual = filtrarListaManual;
 window.renderListaManual = renderListaManual;
 window.ejecutarCheckinManual = ejecutarCheckinManual;
 
-// --- AJUSTE AUTOMÁTICO DE ALTURA Y POSICIÓN PARA IFRAME (WORDPRESS) ---
-var _modalOpen = false;
-
+// --- AJUSTE AUTOMÁTICO DE ALTURA Y AISLAMIENTO DE SCROLL ---
 if (window.parent && window.parent !== window) {
     document.body.classList.add('in-iframe');
 }
 
-window.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'parent-scroll') {
-        const modal = document.querySelector('.modal-overlay[style*="display: flex"]');
-        if (modal) {
-            modal.style.top = Math.max(20, (event.data.scrollY || 0) + 40) + 'px';
-        }
-    }
-});
+// Prevenir que cualquier interacción de scroll sobre el backdrop oscuro afecte el fondo
+function inicializarAislamientoScrollModales() {
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('wheel', (e) => {
+            if (e.target === overlay) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        overlay.addEventListener('touchmove', (e) => {
+            if (e.target === overlay) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    });
+}
+inicializarAislamientoScrollModales();
 
 function sendHeightToParent() {
     if (_modalOpen) return;

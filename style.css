@@ -31,6 +31,17 @@ html, body {
     margin: 0 !important;
     padding: 0 !important;
     overflow-x: hidden !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+}
+
+input,
+button,
+select,
+textarea,
+optgroup {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
 #micro-app {
@@ -913,32 +924,54 @@ html, body {
     z-index: 999999 !important;
     padding: 20px !important;
     box-sizing: border-box !important;
-    overflow-y: auto !important; /* Permite scrollear el modal si la pantalla es reducida */
+    overflow: hidden !important; /* El fondo permanece estático sin scroll */
+    overscroll-behavior: contain !important;
 }
 
-/* Cuando se embebe en iframe largo de WordPress, el modal se ubica en absolute según el scroll */
+/* En cualquier entorno el overlay se mantiene fijo y centrado sin mover el fondo */
 body.in-iframe .modal-overlay {
-    position: absolute !important;
-    height: auto !important;
-    min-height: 100% !important;
-    align-items: flex-start !important;
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 20px !important;
+    overflow: hidden !important;
+    overscroll-behavior: contain !important;
 }
 
 .modal-content {
     width: 100% !important;
     max-width: 680px !important;
-    /* Limita el ancho excesivo en WP */
-    max-height: 90vh !important;
-    /* Evita que crezca más allá de la pantalla */
+    /* Limita la altura para que no desborde la pantalla */
+    max-height: min(88vh, calc(100dvh - 32px)) !important;
+    /* Solo la sección del modal se desplaza si su contenido lo requiere */
     overflow-y: auto !important;
-    /* Scroll interno si la pantalla es pequeña */
+    /* Evita que el scroll interno se propague hacia el fondo */
+    overscroll-behavior: contain !important;
+    overscroll-behavior-y: contain !important;
     margin: 0 auto !important;
-    /* Centrado absoluto */
     background: var(--card-bg) !important;
     border-radius: 16px !important;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
     animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.modal-overlay,
+.modal-content,
+.modal-content p,
+.modal-content span,
+.modal-content label,
+.modal-content div,
+.modal-content input,
+.modal-content select,
+.modal-content button,
+.modal-content textarea {
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif !important;
 }
 
 /* Scrollbar personalizado para el modal */
@@ -1131,9 +1164,10 @@ body.in-iframe .modal-overlay {
 }
 
 /* Bloqueo de scroll cuando hay un modal abierto */
+html.no-scroll,
 body.no-scroll {
     overflow: hidden !important;
-    height: 100% !important; /* Asegura que el cuerpo del iframe no se expanda */
+    overscroll-behavior: none !important;
 }
 
 /* --- PESTAÑAS ADMIN --- */
