@@ -1107,7 +1107,7 @@ function ejecutarCheckinManual(sheetRowIndex, tipo, btnElement) {
 
     const payload = {
         action: "checkin",
-        rowIndex: rowIndex,
+        rowIndex: sheetRowIndex,
         tipo: tipo,
         nombre: row[COL.nombre]
     };
