@@ -171,7 +171,7 @@ function switchAdminTab(tabId, btnElement) {
 // ─── LOGIN ADMIN ────────────────────────────────────────────
 function loginAdmin() {
     const pass = document.getElementById('adminPass').value;
-    if (pass === 'imi2026' || pass === 'admin24') {
+    if (pass === 'cjef2026' || pass === 'admin24') {
         document.getElementById('admin-error').style.display = 'none';
         document.getElementById('adminPass').value = '';
         switchView('view-admin-dashboard');

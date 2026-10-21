@@ -366,18 +366,35 @@ optgroup {
 .action-grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: 10px !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+}
+
+.action-grid .btn {
+    width: 100% !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.action-grid .btn:only-child {
+    grid-column: 1 / -1 !important;
 }
 
 @media (min-width: 768px) {
     .action-grid {
         display: flex !important;
         justify-content: center !important;
+        gap: 12px !important;
     }
 
     .action-grid .btn {
         min-width: 160px !important;
-        margin-bottom: 0 !important;
+        width: auto !important;
+        margin: 0 !important;
+    }
+
+    .action-grid .btn:only-child {
+        min-width: 200px !important;
     }
 }
 
@@ -624,7 +641,7 @@ optgroup {
 
 @media (min-width: 1024px) {
     .dashboard-grid {
-        grid-template-columns: 1fr 1fr 1fr !important;
+        grid-template-columns: repeat(4, 1fr) !important;
     }
 
     .stat-card.full-width {
@@ -641,6 +658,84 @@ optgroup {
     align-items: center !important;
     gap: 16px !important;
     transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+/* Tarjetas KPI centradas (Asistencia, Almuerzos, Estados de Pago) */
+.stat-card.stat-card-kpi {
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 16px 12px !important;
+    gap: 6px !important;
+}
+
+.stat-kpi-title {
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--text-main) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+}
+
+.stat-kpi-value {
+    font-size: 26px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+    margin: 2px 0 !important;
+    white-space: nowrap !important;
+}
+
+.stat-kpi-sub {
+    font-size: 16px !important;
+    color: var(--text-muted) !important;
+    font-weight: normal !important;
+}
+
+.stat-kpi-caption {
+    margin: 0 !important;
+    font-size: 11px !important;
+    color: var(--text-muted) !important;
+}
+
+/* Fila responsive para Estados de Pago */
+.stat-pago-row {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 2px 0 !important;
+    white-space: nowrap !important;
+    flex-wrap: nowrap !important;
+}
+
+.stat-pago-item {
+    display: inline-flex !important;
+    align-items: baseline !important;
+    gap: 4px !important;
+    white-space: nowrap !important;
+}
+
+.stat-pago-num {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 1.1 !important;
+}
+
+.stat-pago-label {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: var(--text-muted) !important;
+    white-space: nowrap !important;
+}
+
+.stat-pago-divider {
+    color: var(--border-color) !important;
+    font-size: 14px !important;
 }
 
 .stat-card:hover {
