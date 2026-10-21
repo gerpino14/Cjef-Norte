@@ -4,8 +4,8 @@
     --card-bg: #ffffff !important;
     --text-main: #1f2937 !important;
     --text-muted: #6b7280 !important;
-    --primary: #2563eb !important;
-    --primary-hover: #1d4ed8 !important;
+    --primary: #f7aa40 !important;
+    --primary-hover: #e09530 !important;
     --border-color: #e5e7eb !important;
 }
 
@@ -27,7 +27,8 @@ main#main {
 }
 
 /* Base general adaptable */
-html, body {
+html,
+body {
     margin: 0 !important;
     padding: 0 !important;
     overflow-x: hidden !important;
@@ -438,7 +439,7 @@ optgroup {
     font-size: clamp(55px, 10vw, 75px) !important;
     /* Fluido: crece en pantallas grandes */
     font-weight: 800 !important;
-	margin-left: 20px !important;
+    margin-left: 20px !important;
     color: var(--primary) !important;
     line-height: 0.8 !important;
     letter-spacing: -3px !important;
@@ -1019,7 +1020,8 @@ optgroup {
     z-index: 999999 !important;
     padding: 20px !important;
     box-sizing: border-box !important;
-    overflow: hidden !important; /* El fondo permanece estático sin scroll */
+    overflow: hidden !important;
+    /* El fondo permanece estático sin scroll */
     overscroll-behavior: contain !important;
 }
 
@@ -1686,6 +1688,7 @@ a:focus-visible,
 
 /* 4. Respeto a Preferencias de Movimiento Reducido */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
